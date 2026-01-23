@@ -3,6 +3,7 @@ import { useAirQualityData } from "@/hooks/useAirQualityData";
 import { calculateCityStats, getCityMessage } from "@/utils/airQualityUtils";
 import { CitySelector } from "@/components/CitySelector";
 import { MoodDisplay } from "@/components/MoodDisplay";
+import { AQIGauge } from "@/components/AQIGauge";
 import { PollutantChart } from "@/components/PollutantChart";
 import { PollutantLevels } from "@/components/PollutantLevels";
 import { CityMessage } from "@/components/CityMessage";
@@ -83,6 +84,9 @@ const Index = () => {
               aqi={cityStats.latestData.AQI}
               cityName={cityStats.city}
             />
+
+            {/* AQI Gauge */}
+            <AQIGauge aqi={cityStats.latestData.AQI} />
 
             {/* Charts Row */}
             <div className="grid lg:grid-cols-2 gap-8">
