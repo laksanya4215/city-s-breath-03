@@ -79,21 +79,21 @@ const Index = () => {
       {cityStats && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* 1. AQI Display - "City's AQI level is X — Category" */}
-            <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
-
-            {/* 2. AQI Gauge Visualization */}
-            <AQIGauge aqi={cityStats.latestData.AQI} />
-
-            {/* 3. Pollutant Pie Chart */}
-            <PollutantChart data={cityStats.pollutantPercentages} />
-
-            {/* 4. Mood Display - Emotional city condition */}
+            {/* 1. Mood Display - City with emoji and AQI at the top */}
             <MoodDisplay
               mood={cityStats.mood}
               aqi={cityStats.latestData.AQI}
               cityName={cityStats.city}
             />
+
+            {/* 2. AQI Display - "City's AQI level is X — Category" */}
+            <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
+
+            {/* 3. AQI Gauge Visualization */}
+            <AQIGauge aqi={cityStats.latestData.AQI} />
+
+            {/* 4. Pollutant Pie Chart */}
+            <PollutantChart data={cityStats.pollutantPercentages} />
 
             {/* 5. City Message - How air feels & which pollutants responsible */}
             <CityMessage message={cityMessage} mood={cityStats.mood} />
