@@ -32,7 +32,7 @@ export function MoodDisplay({ mood, aqi, cityName }: MoodDisplayProps) {
         
         <div className="text-center md:text-left flex-1">
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-2">
-            {cityName} is feeling <span className={textColors[mood]}>{getMoodLabel(mood)}</span>
+            {cityName}
           </h2>
           <p className="text-muted-foreground text-lg">
             Current Air Quality Index
