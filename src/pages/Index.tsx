@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useAirQualityData } from "@/hooks/useAirQualityData";
 import { calculateCityStats, getCityMessage } from "@/utils/airQualityUtils";
+import { calculateMetrics } from "@/utils/metricsUtils";
 import { CitySelector } from "@/components/CitySelector";
 import { MoodDisplay } from "@/components/MoodDisplay";
 import { AQIGauge } from "@/components/AQIGauge";
@@ -10,6 +11,8 @@ import { PollutantChart } from "@/components/PollutantChart";
 import { CityMessage } from "@/components/CityMessage";
 import { HealthImpact } from "@/components/HealthImpact";
 import { DailyAdvice } from "@/components/DailyAdvice";
+import { MetricsCards } from "@/components/MetricsCards";
+import { AQITrendChart } from "@/components/AQITrendChart";
 import { Wind, Loader2 } from "lucide-react";
 
 const Index = () => {
@@ -25,6 +28,11 @@ const Index = () => {
     if (!cityStats) return "";
     return getCityMessage(cityStats);
   }, [cityStats]);
+
+  const metrics = useMemo(() => {
+    if (!selectedCity || !data.length) return null;
+    return calculateMetrics(data, selectedCity);
+  }, [data, selectedCity]);
 
   if (loading) {
     return (
@@ -76,35 +84,46 @@ const Index = () => {
       </section>
 
       {/* Main Content */}
-      {cityStats && (
+      {cityStats && metrics && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* 1. Mood Display - City with emoji and AQI at the top */}
+            {/* 1. Metrics Cards - Accuracy, Precision, Recall, F1 Score */}
+            <MetricsCards 
+              accuracy={metrics.accuracy}
+              precision={metrics.precision}
+              recall={metrics.recall}
+              f1Score={metrics.f1Score}
+            />
+
+            {/* 2. AQI Trend Chart - Line chart like the reference */}
+            <AQITrendChart data={data} cityName={cityStats.city} />
+
+            {/* 3. Mood Display - City with emoji and AQI at the top */}
             <MoodDisplay
               mood={cityStats.mood}
               aqi={cityStats.latestData.AQI}
               cityName={cityStats.city}
             />
 
-            {/* 2. AQI Display - "City's AQI level is X — Category" */}
+            {/* 4. AQI Display - "City's AQI level is X — Category" */}
             <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
 
-            {/* 3. AQI Gauge Visualization */}
+            {/* 5. AQI Gauge Visualization */}
             <AQIGauge aqi={cityStats.latestData.AQI} />
 
-            {/* 4. Pollutant Pie Chart */}
+            {/* 6. Pollutant Pie Chart */}
             <PollutantChart data={cityStats.pollutantPercentages} />
 
-            {/* 5. City Message - How air feels & which pollutants responsible */}
+            {/* 7. City Message - How air feels & which pollutants responsible */}
             <CityMessage message={cityMessage} mood={cityStats.mood} />
 
-            {/* 6. Health Impact - One year of breathing this air */}
+            {/* 8. Health Impact - One year of breathing this air */}
             <HealthImpact mood={cityStats.mood} />
 
-            {/* 7. Daily Advice - Gentle practical advice */}
+            {/* 9. Daily Advice - Gentle practical advice */}
             <DailyAdvice mood={cityStats.mood} />
 
-            {/* 8. Detailed Pollutant Levels Table - at the end */}
+            {/* 10. Detailed Pollutant Levels Table - at the end */}
             <PollutantTable data={cityStats.pollutantPercentages} />
           </div>
         </main>
