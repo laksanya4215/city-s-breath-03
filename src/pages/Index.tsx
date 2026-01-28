@@ -79,33 +79,33 @@ const Index = () => {
       {cityStats && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* 1. Detailed Pollutant Levels Table */}
-            <PollutantTable data={cityStats.pollutantPercentages} />
-
-            {/* 2. AQI Display - "City's AQI level is X — Category" */}
+            {/* 1. AQI Display - "City's AQI level is X — Category" */}
             <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
 
-            {/* 3. AQI Gauge Visualization */}
+            {/* 2. AQI Gauge Visualization */}
             <AQIGauge aqi={cityStats.latestData.AQI} />
 
-            {/* 4. Pollutant Pie Chart */}
+            {/* 3. Pollutant Pie Chart */}
             <PollutantChart data={cityStats.pollutantPercentages} />
 
-            {/* 5. Mood Display - Emotional city condition */}
+            {/* 4. Mood Display - Emotional city condition */}
             <MoodDisplay
               mood={cityStats.mood}
               aqi={cityStats.latestData.AQI}
               cityName={cityStats.city}
             />
 
-            {/* 6. City Message - How air feels & which pollutants responsible */}
+            {/* 5. City Message - How air feels & which pollutants responsible */}
             <CityMessage message={cityMessage} mood={cityStats.mood} />
 
-            {/* 7. Health Impact - One year of breathing this air */}
+            {/* 6. Health Impact - One year of breathing this air */}
             <HealthImpact mood={cityStats.mood} />
 
-            {/* 8. Daily Advice - Gentle practical advice */}
+            {/* 7. Daily Advice - Gentle practical advice */}
             <DailyAdvice mood={cityStats.mood} />
+
+            {/* 8. Detailed Pollutant Levels Table - at the end */}
+            <PollutantTable data={cityStats.pollutantPercentages} />
           </div>
         </main>
       )}
