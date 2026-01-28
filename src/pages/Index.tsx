@@ -4,8 +4,9 @@ import { calculateCityStats, getCityMessage } from "@/utils/airQualityUtils";
 import { CitySelector } from "@/components/CitySelector";
 import { MoodDisplay } from "@/components/MoodDisplay";
 import { AQIGauge } from "@/components/AQIGauge";
+import { AQIDisplay } from "@/components/AQIDisplay";
+import { PollutantTable } from "@/components/PollutantTable";
 import { PollutantChart } from "@/components/PollutantChart";
-import { PollutantLevels } from "@/components/PollutantLevels";
 import { CityMessage } from "@/components/CityMessage";
 import { HealthImpact } from "@/components/HealthImpact";
 import { DailyAdvice } from "@/components/DailyAdvice";
@@ -78,29 +79,32 @@ const Index = () => {
       {cityStats && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* Mood Display */}
+            {/* 1. Detailed Pollutant Levels Table */}
+            <PollutantTable data={cityStats.pollutantPercentages} />
+
+            {/* 2. AQI Display - "City's AQI level is X — Category" */}
+            <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
+
+            {/* 3. AQI Gauge Visualization */}
+            <AQIGauge aqi={cityStats.latestData.AQI} />
+
+            {/* 4. Pollutant Pie Chart */}
+            <PollutantChart data={cityStats.pollutantPercentages} />
+
+            {/* 5. Mood Display - Emotional city condition */}
             <MoodDisplay
               mood={cityStats.mood}
               aqi={cityStats.latestData.AQI}
               cityName={cityStats.city}
             />
 
-            {/* AQI Gauge */}
-            <AQIGauge aqi={cityStats.latestData.AQI} />
-
-            {/* Charts Row */}
-            <div className="grid lg:grid-cols-2 gap-8">
-              <PollutantChart data={cityStats.pollutantPercentages} />
-              <PollutantLevels data={cityStats.pollutantPercentages} />
-            </div>
-
-            {/* City Message */}
+            {/* 6. City Message - How air feels & which pollutants responsible */}
             <CityMessage message={cityMessage} mood={cityStats.mood} />
 
-            {/* Health Impact */}
+            {/* 7. Health Impact - One year of breathing this air */}
             <HealthImpact mood={cityStats.mood} />
 
-            {/* Daily Advice */}
+            {/* 8. Daily Advice - Gentle practical advice */}
             <DailyAdvice mood={cityStats.mood} />
           </div>
         </main>
