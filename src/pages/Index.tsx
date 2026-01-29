@@ -6,7 +6,7 @@ import { CitySelector } from "@/components/CitySelector";
 import { MoodDisplay } from "@/components/MoodDisplay";
 import { AQIGauge } from "@/components/AQIGauge";
 import { AQIDisplay } from "@/components/AQIDisplay";
-import { PollutantTable } from "@/components/PollutantTable";
+import { PollutantLevels } from "@/components/PollutantLevels";
 import { PollutantChart } from "@/components/PollutantChart";
 import { CityMessage } from "@/components/CityMessage";
 import { HealthImpact } from "@/components/HealthImpact";
@@ -120,8 +120,8 @@ const Index = () => {
             {/* 9. Air Quality Trends Chart */}
             <AQITrendChart data={data} cityName={cityStats.city} />
 
-            {/* 10. Detailed Pollutant Levels Table */}
-            <PollutantTable data={cityStats.pollutantPercentages} />
+            {/* 10. Detailed Pollutant Levels */}
+            <PollutantLevels data={cityStats.pollutantPercentages} />
           </div>
         </main>
       )}
