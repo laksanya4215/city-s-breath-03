@@ -5,9 +5,10 @@ import { calculateMetrics } from "@/utils/metricsUtils";
 import { CitySelector } from "@/components/CitySelector";
 import { MoodDisplay } from "@/components/MoodDisplay";
 import { AQIGauge } from "@/components/AQIGauge";
+import { AQIDisplay } from "@/components/AQIDisplay";
 import { PollutantTable } from "@/components/PollutantTable";
 import { PollutantChart } from "@/components/PollutantChart";
-import { PollutantLevels } from "@/components/PollutantLevels";
+import { CityMessage } from "@/components/CityMessage";
 import { HealthImpact } from "@/components/HealthImpact";
 import { DailyAdvice } from "@/components/DailyAdvice";
 import { MetricsCards } from "@/components/MetricsCards";
@@ -86,29 +87,7 @@ const Index = () => {
       {cityStats && metrics && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* 1. Current Air Quality Index - Mood Display */}
-            <MoodDisplay
-              mood={cityStats.mood}
-              aqi={cityStats.latestData.AQI}
-              cityName={cityStats.city}
-            />
-
-            {/* 2. AQI Gauge Visualization */}
-            <AQIGauge aqi={cityStats.latestData.AQI} />
-
-            {/* 3. Pollutant Breakdown - Pie Chart */}
-            <PollutantChart data={cityStats.pollutantPercentages} />
-
-            {/* 4. Detailed Pollutant Levels - Bar style */}
-            <PollutantLevels data={cityStats.pollutantPercentages} />
-
-            {/* 5. Health Impact - What this means for your health */}
-            <HealthImpact mood={cityStats.mood} />
-
-            {/* 6. Daily Advice - Today's advice */}
-            <DailyAdvice mood={cityStats.mood} />
-
-            {/* 7. ML Metrics - Accuracy, Precision, Recall, F1 Score */}
+            {/* 1. Metrics Cards - Accuracy, Precision, Recall, F1 Score */}
             <MetricsCards 
               accuracy={metrics.accuracy}
               precision={metrics.precision}
@@ -116,10 +95,35 @@ const Index = () => {
               f1Score={metrics.f1Score}
             />
 
-            {/* 8. Air Quality Trends - Line chart */}
+            {/* 2. AQI Trend Chart - Line chart like the reference */}
             <AQITrendChart data={data} cityName={cityStats.city} />
 
-            {/* 9. Detailed Pollutant Levels Table */}
+            {/* 3. Mood Display - City with emoji and AQI at the top */}
+            <MoodDisplay
+              mood={cityStats.mood}
+              aqi={cityStats.latestData.AQI}
+              cityName={cityStats.city}
+            />
+
+            {/* 4. AQI Display - "City's AQI level is X — Category" */}
+            <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
+
+            {/* 5. AQI Gauge Visualization */}
+            <AQIGauge aqi={cityStats.latestData.AQI} />
+
+            {/* 6. Pollutant Pie Chart */}
+            <PollutantChart data={cityStats.pollutantPercentages} />
+
+            {/* 7. City Message - How air feels & which pollutants responsible */}
+            <CityMessage message={cityMessage} mood={cityStats.mood} />
+
+            {/* 8. Health Impact - One year of breathing this air */}
+            <HealthImpact mood={cityStats.mood} />
+
+            {/* 9. Daily Advice - Gentle practical advice */}
+            <DailyAdvice mood={cityStats.mood} />
+
+            {/* 10. Detailed Pollutant Levels Table - at the end */}
             <PollutantTable data={cityStats.pollutantPercentages} />
           </div>
         </main>
