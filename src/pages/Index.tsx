@@ -94,10 +94,7 @@ const Index = () => {
               cityName={cityStats.city}
             />
 
-            {/* 2. AQI Display - "City's AQI level is X — Category" */}
-            <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
-
-            {/* 3. AQI Gauge Visualization */}
+            {/* 2. AQI Gauge Visualization */}
             <AQIGauge aqi={cityStats.latestData.AQI} />
 
             {/* 4. Pollution Breakdown - Pie Chart */}
