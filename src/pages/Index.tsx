@@ -3,7 +3,6 @@ import { useAirQualityData } from "@/hooks/useAirQualityData";
 import { calculateCityStats, getCityMessage } from "@/utils/airQualityUtils";
 import { calculateMetrics } from "@/utils/metricsUtils";
 import { CitySelector } from "@/components/CitySelector";
-import { MoodDisplay } from "@/components/MoodDisplay";
 import { AQIGauge } from "@/components/AQIGauge";
 import { AQIDisplay } from "@/components/AQIDisplay";
 import { PollutantTable } from "@/components/PollutantTable";
@@ -87,17 +86,10 @@ const Index = () => {
       {cityStats && metrics && (
         <main className="py-8 md:py-12">
           <div className="container mx-auto px-4 space-y-8">
-            {/* 1. Mood Display - Current Air Quality Index */}
-            <MoodDisplay
-              mood={cityStats.mood}
-              aqi={cityStats.latestData.AQI}
-              cityName={cityStats.city}
-            />
-
-            {/* 2. AQI Display - AQI Index */}
+            {/* 1. AQI Display - Air Quality Index */}
             <AQIDisplay aqi={cityStats.latestData.AQI} cityName={cityStats.city} />
 
-            {/* 3. AQI Gauge Visualization */}
+            {/* 2. AQI Gauge Visualization */}
             <AQIGauge aqi={cityStats.latestData.AQI} />
 
             {/* 4. Pollutant Pie Chart - Pollution Breakdown */}
