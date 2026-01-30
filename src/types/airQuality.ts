@@ -24,10 +24,13 @@ export interface CityStats {
   pollutantPercentages: PollutantPercentage[];
 }
 
+export type SeverityLevel = 'Low' | 'Moderate' | 'High' | 'Severe';
+
 export interface PollutantPercentage {
   name: string;
   fullName: string;
   value: number;
   percentage: number;
   color: string;
+  severity: SeverityLevel;
 }
