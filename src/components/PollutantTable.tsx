@@ -1,16 +1,17 @@
 import { PollutantPercentage, SeverityLevel } from "@/types/airQuality";
 import { getSeverityColor } from "@/utils/airQualityUtils";
 import { cn } from "@/lib/utils";
+import { BarChart3 } from "lucide-react";
 
 interface PollutantTableProps {
   data: PollutantPercentage[];
 }
 
 const severityBadgeStyles: Record<SeverityLevel, string> = {
-  Low: "bg-green-500/20 text-green-600 border-green-500/30",
-  Moderate: "bg-yellow-500/20 text-yellow-600 border-yellow-500/30",
-  High: "bg-orange-500/20 text-orange-600 border-orange-500/30",
-  Severe: "bg-red-500/20 text-red-600 border-red-500/30",
+  Low: "bg-emerald-500/20 text-emerald-400 border-emerald-500/50",
+  Moderate: "bg-amber-500/20 text-amber-400 border-amber-500/50",
+  High: "bg-orange-500/20 text-orange-400 border-orange-500/50",
+  Severe: "bg-red-500/20 text-red-400 border-red-500/50",
 };
 
 export function PollutantTable({ data }: PollutantTableProps) {
@@ -18,55 +19,73 @@ export function PollutantTable({ data }: PollutantTableProps) {
   const maxValue = Math.max(...data.map(d => d.value));
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in-up">
-      <h3 className="font-heading text-2xl font-bold text-foreground text-center mb-2">
-        Detailed Pollutant Levels
-      </h3>
-      <p className="text-center text-muted-foreground text-sm mb-6">
+    <div className="glass-card p-8 animate-fade-in-up animate-delay-200">
+      <div className="flex items-center justify-center gap-2 mb-2">
+        <BarChart3 className="h-5 w-5 text-primary" />
+        <h3 className="font-heading text-xl font-semibold text-muted-foreground uppercase tracking-wider">
+          Detailed Pollutant Levels
+        </h3>
+      </div>
+      <p className="text-center text-muted-foreground text-sm mb-8">
         Average concentration in µg/m³ with severity indicators
       </p>
       
-      <div className="space-y-5">
-        {sortedData.map((pollutant) => {
+      <div className="space-y-4">
+        {sortedData.map((pollutant, index) => {
           const barWidth = maxValue > 0 ? (pollutant.value / maxValue) * 100 : 0;
           const severityColor = getSeverityColor(pollutant.severity);
           
           return (
-            <div key={pollutant.name} className="space-y-2">
+            <div 
+              key={pollutant.name} 
+              className="group p-4 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-all duration-300"
+            >
               {/* Header row with name, severity badge, and value */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-3">
                   <div
-                    className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: pollutant.color }}
+                    className="w-4 h-4 rounded-full ring-2 ring-offset-2 ring-offset-card"
+                    style={{ 
+                      backgroundColor: pollutant.color,
+                      boxShadow: `0 0 10px ${pollutant.color}`,
+                    }}
                   />
-                  <span className="font-bold text-foreground">{pollutant.name}</span>
-                  <span className="text-muted-foreground text-sm">
-                    ({pollutant.fullName})
-                  </span>
+                  <div>
+                    <span className="font-semibold text-foreground">{pollutant.name}</span>
+                    <span className="text-muted-foreground text-sm ml-2">
+                      ({pollutant.fullName})
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
                   <span 
                     className={cn(
-                      "px-2 py-0.5 text-xs font-semibold rounded-full border",
+                      "px-3 py-1 text-xs font-semibold rounded-full border",
                       severityBadgeStyles[pollutant.severity]
                     )}
                   >
                     {pollutant.severity}
                   </span>
+                  <span className="font-bold text-foreground tabular-nums min-w-[100px] text-right">
+                    {pollutant.value.toFixed(2)}
+                    <span className="text-xs text-muted-foreground ml-1">µg/m³</span>
+                  </span>
                 </div>
-                <span className="font-semibold text-foreground tabular-nums">
-                  {pollutant.value.toFixed(2)}
-                </span>
               </div>
               
-              {/* Progress bar with severity color */}
-              <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+              {/* Progress bar with severity color and glow */}
+              <div className="h-3 bg-secondary/50 rounded-full overflow-hidden">
                 <div
-                  className="h-full rounded-full transition-all duration-500 ease-out"
+                  className="h-full rounded-full transition-all duration-700 ease-out relative overflow-hidden"
                   style={{
                     width: `${barWidth}%`,
                     backgroundColor: severityColor,
+                    transitionDelay: `${index * 50}ms`,
+                    boxShadow: `0 0 10px ${severityColor}`
                   }}
-                />
+                >
+                  <div className="absolute inset-0 shimmer" />
+                </div>
               </div>
             </div>
           );

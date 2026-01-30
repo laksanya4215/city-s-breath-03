@@ -2,118 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    --primary: 152 69% 31%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 152 69% 31%;
-
-    --radius: 1rem;
-
-    /* Mood-based colors */
-    --mood-happy: 152 69% 41%;
-    --mood-happy-light: 152 69% 95%;
-    --mood-happy-glow: 152 69% 60%;
-    
-    --mood-tired: 45 93% 47%;
-    --mood-tired-light: 45 93% 95%;
-    --mood-tired-glow: 45 93% 60%;
-    
-    --mood-sick: 24 95% 53%;
-    --mood-sick-light: 24 95% 95%;
-    --mood-sick-glow: 24 95% 70%;
-    
-    --mood-crying: 0 72% 51%;
-    --mood-crying-light: 0 72% 95%;
-    --mood-crying-glow: 0 72% 65%;
-
-    /* Pollutant colors for charts */
-    --pollutant-pm25: 340 82% 52%;
-    --pollutant-pm10: 280 65% 60%;
-    --pollutant-no: 200 95% 45%;
-    --pollutant-no2: 180 70% 45%;
-    --pollutant-nox: 160 60% 45%;
-    --pollutant-nh3: 100 70% 40%;
-    --pollutant-co: 45 90% 48%;
-    --pollutant-so2: 24 90% 50%;
-    --pollutant-o3: 220 90% 56%;
-
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Nunito', sans-serif;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222 47% 8%;
+    --background: 222 47% 6%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 11%;
+    --card: 222 47% 9%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 222 47% 9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 152 69% 41%;
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 17%;
+    --secondary: 217 33% 14%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 217 33% 14%;
+    --muted-foreground: 215 20% 55%;
 
     --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 63% 31%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 152 69% 41%;
+    --ring: 160 84% 39%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --radius: 1rem;
+
+    /* Neon accent colors */
+    --neon-green: 160 84% 45%;
+    --neon-blue: 200 100% 50%;
+    --neon-purple: 270 100% 65%;
+    --neon-orange: 24 100% 55%;
+    --neon-red: 0 85% 60%;
+    --neon-cyan: 180 100% 50%;
+    --neon-yellow: 45 100% 55%;
+
+    /* AQI Status colors */
+    --aqi-good: 152 69% 45%;
+    --aqi-satisfactory: 80 60% 45%;
+    --aqi-moderate: 45 93% 47%;
+    --aqi-poor: 24 95% 53%;
+    --aqi-very-poor: 0 72% 51%;
+    --aqi-severe: 0 85% 35%;
+
+    /* Mood-based colors */
+    --mood-happy: 160 84% 45%;
+    --mood-happy-light: 160 84% 15%;
+    --mood-happy-glow: 160 84% 55%;
+    
+    --mood-tired: 45 93% 47%;
+    --mood-tired-light: 45 93% 15%;
+    --mood-tired-glow: 45 93% 55%;
+    
+    --mood-sick: 24 95% 53%;
+    --mood-sick-light: 24 95% 15%;
+    --mood-sick-glow: 24 95% 65%;
+    
+    --mood-crying: 0 72% 51%;
+    --mood-crying-light: 0 72% 15%;
+    --mood-crying-glow: 0 72% 60%;
+
+    /* Pollutant colors for charts */
+    --pollutant-pm25: 340 82% 52%;
+    --pollutant-pm10: 280 65% 60%;
+    --pollutant-no: 200 95% 50%;
+    --pollutant-no2: 180 70% 50%;
+    --pollutant-nox: 160 60% 50%;
+    --pollutant-nh3: 100 70% 45%;
+    --pollutant-co: 45 90% 50%;
+    --pollutant-so2: 24 90% 55%;
+    --pollutant-o3: 220 90% 60%;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 217 33% 14%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 160 84% 39%;
   }
 }
 
@@ -123,7 +101,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
   }
 
@@ -133,29 +111,44 @@
 }
 
 @layer components {
-  .mood-card-happy {
-    @apply bg-mood-happy-light border-2 border-mood-happy;
-    box-shadow: 0 10px 40px -10px hsl(var(--mood-happy) / 0.3);
-  }
-
-  .mood-card-tired {
-    @apply bg-mood-tired-light border-2 border-mood-tired;
-    box-shadow: 0 10px 40px -10px hsl(var(--mood-tired) / 0.3);
-  }
-
-  .mood-card-sick {
-    @apply bg-mood-sick-light border-2 border-mood-sick;
-    box-shadow: 0 10px 40px -10px hsl(var(--mood-sick) / 0.3);
-  }
-
-  .mood-card-crying {
-    @apply bg-mood-crying-light border-2 border-mood-crying;
-    box-shadow: 0 10px 40px -10px hsl(var(--mood-crying) / 0.3);
-  }
-
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50;
-    box-shadow: 0 8px 32px -8px hsl(var(--foreground) / 0.1);
+    @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl;
+    box-shadow: 
+      0 8px 32px -8px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 0 hsl(var(--foreground) / 0.05);
+  }
+
+  .glass-card-glow {
+    @apply bg-card/60 backdrop-blur-xl border border-primary/30 rounded-2xl;
+    box-shadow: 
+      0 0 40px -10px hsl(var(--primary) / 0.3),
+      0 8px 32px -8px hsl(var(--primary) / 0.15),
+      inset 0 1px 0 0 hsl(var(--primary) / 0.1);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 20px -5px currentColor;
+  }
+
+  .neon-text {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--neon-blue)), hsl(var(--primary)));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
 
   .pulse-glow {
@@ -167,7 +160,7 @@
       filter: drop-shadow(0 0 8px currentColor);
     }
     50% {
-      filter: drop-shadow(0 0 20px currentColor);
+      filter: drop-shadow(0 0 25px currentColor);
     }
   }
 
@@ -209,5 +202,45 @@
 
   .animate-delay-300 {
     animation-delay: 0.3s;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--foreground) / 0.1),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--secondary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.5);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.7);
   }
 }
