@@ -83,6 +83,38 @@ export function getAQICategory(aqi: number): string {
   return 'Severe';
 }
 
+// Thresholds for pollutant severity levels (µg/m³)
+const POLLUTANT_THRESHOLDS: Record<string, { low: number; moderate: number; high: number }> = {
+  "PM2.5": { low: 30, moderate: 60, high: 90 },
+  "PM10": { low: 50, moderate: 100, high: 250 },
+  "NO": { low: 20, moderate: 40, high: 80 },
+  "NO₂": { low: 40, moderate: 80, high: 180 },
+  "NOx": { low: 40, moderate: 80, high: 180 },
+  "NH₃": { low: 200, moderate: 400, high: 800 },
+  "CO": { low: 1, moderate: 2, high: 10 },
+  "SO₂": { low: 40, moderate: 80, high: 380 },
+  "O₃": { low: 50, moderate: 100, high: 168 },
+};
+
+export function getPollutantSeverity(name: string, value: number): 'Low' | 'Moderate' | 'High' | 'Severe' {
+  const thresholds = POLLUTANT_THRESHOLDS[name];
+  if (!thresholds) return 'Low';
+  
+  if (value <= thresholds.low) return 'Low';
+  if (value <= thresholds.moderate) return 'Moderate';
+  if (value <= thresholds.high) return 'High';
+  return 'Severe';
+}
+
+export function getSeverityColor(severity: 'Low' | 'Moderate' | 'High' | 'Severe'): string {
+  switch (severity) {
+    case 'Low': return 'hsl(152, 69%, 41%)';
+    case 'Moderate': return 'hsl(45, 93%, 47%)';
+    case 'High': return 'hsl(24, 95%, 53%)';
+    case 'Severe': return 'hsl(0, 72%, 51%)';
+  }
+}
+
 export function calculateCityStats(data: AirQualityData[], city: string): CityStats {
   const cityData = data.filter(d => d.City === city);
   const latestData = cityData[cityData.length - 1];
@@ -105,6 +137,7 @@ export function calculateCityStats(data: AirQualityData[], city: string): CitySt
   const pollutantPercentages: PollutantPercentage[] = pollutants.map(p => ({
     ...p,
     percentage: total > 0 ? (p.value / total) * 100 : 0,
+    severity: getPollutantSeverity(p.name, p.value),
   }));
   
   return {
