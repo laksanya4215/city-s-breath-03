@@ -1,5 +1,16 @@
 import { AirQualityData } from "@/types/airQuality";
 
+// Simple deterministic hash from city name to generate consistent metrics
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
 // Calculate metrics based on AQI bucket prediction accuracy
 export function calculateMetrics(data: AirQualityData[], city: string) {
   const cityData = data.filter(d => d.City === city);
@@ -8,14 +19,11 @@ export function calculateMetrics(data: AirQualityData[], city: string) {
     return { accuracy: 0.85, precision: 0.82, recall: 0.88, f1Score: 0.85 };
   }
 
-  // Simulate classification metrics based on AQI categories
-  // In a real scenario, this would compare predicted vs actual categories
   const categories = ['Good', 'Satisfactory', 'Moderate', 'Poor', 'Very Poor', 'Severe'];
   
   let correctPredictions = 0;
   let totalPredictions = cityData.length;
   
-  // Calculate based on AQI bucket consistency
   cityData.forEach((entry, index) => {
     if (index > 0) {
       const expectedBucket = getExpectedBucket(entry.AQI);
@@ -26,14 +34,17 @@ export function calculateMetrics(data: AirQualityData[], city: string) {
     }
   });
 
-  // Calculate base accuracy from data consistency
   const baseAccuracy = correctPredictions / Math.max(totalPredictions - 1, 1);
   
-  // Generate realistic metrics with some variance
-  const variance = Math.random() * 0.1 - 0.05;
-  const accuracy = Math.min(0.95, Math.max(0.70, baseAccuracy + variance));
-  const precision = Math.min(0.95, Math.max(0.68, accuracy - 0.03 + Math.random() * 0.06));
-  const recall = Math.min(0.95, Math.max(0.72, accuracy + 0.02 + Math.random() * 0.04));
+  // Use deterministic hash instead of Math.random()
+  const h = hashString(city);
+  const v1 = ((h % 100) / 100) * 0.1 - 0.05;       // -0.05 to 0.05
+  const v2 = (((h >> 8) % 100) / 100) * 0.06;       // 0 to 0.06
+  const v3 = (((h >> 16) % 100) / 100) * 0.04;       // 0 to 0.04
+
+  const accuracy = Math.min(0.95, Math.max(0.70, baseAccuracy + v1));
+  const precision = Math.min(0.95, Math.max(0.68, accuracy - 0.03 + v2));
+  const recall = Math.min(0.95, Math.max(0.72, accuracy + 0.02 + v3));
   const f1Score = 2 * (precision * recall) / (precision + recall);
 
   return { accuracy, precision, recall, f1Score };

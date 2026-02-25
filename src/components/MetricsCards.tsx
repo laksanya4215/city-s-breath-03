@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import { Target, Crosshair, RefreshCw, Activity, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -8,35 +9,62 @@ interface MetricsCardsProps {
   f1Score: number;
 }
 
+function useAnimatedValue(target: number, duration = 800) {
+  const [value, setValue] = useState(0);
+  const rafRef = useRef<number>();
+
+  useEffect(() => {
+    const start = value;
+    const startTime = performance.now();
+
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(start + (target - start) * eased);
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [target]);
+
+  return value;
+}
+
 export function MetricsCards({ accuracy, precision, recall, f1Score }: MetricsCardsProps) {
+  const animAccuracy = useAnimatedValue(accuracy);
+  const animPrecision = useAnimatedValue(precision);
+  const animRecall = useAnimatedValue(recall);
+  const animF1 = useAnimatedValue(f1Score);
+
   const metrics = [
     {
       label: "Accuracy",
-      value: accuracy,
+      value: animAccuracy,
       icon: Target,
       color: "from-emerald-500 to-teal-500",
-      glow: "emerald",
     },
     {
       label: "Precision",
-      value: precision,
+      value: animPrecision,
       icon: Crosshair,
       color: "from-blue-500 to-cyan-500",
-      glow: "blue",
     },
     {
       label: "Recall",
-      value: recall,
+      value: animRecall,
       icon: RefreshCw,
       color: "from-purple-500 to-pink-500",
-      glow: "purple",
     },
     {
       label: "F1 Score",
-      value: f1Score,
+      value: animF1,
       icon: Activity,
       color: "from-orange-500 to-amber-500",
-      glow: "orange",
     },
   ];
 
@@ -55,7 +83,6 @@ export function MetricsCards({ accuracy, precision, recall, f1Score }: MetricsCa
             key={metric.label}
             className="relative group"
           >
-            {/* Glow effect */}
             <div className={cn(
               "absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500",
               `bg-gradient-to-br ${metric.color}`
@@ -68,7 +95,7 @@ export function MetricsCards({ accuracy, precision, recall, f1Score }: MetricsCa
               <p className="text-muted-foreground text-sm font-medium mb-2 uppercase tracking-wide">
                 {metric.label}
               </p>
-              <p className="text-4xl font-bold text-foreground font-heading">
+              <p className="text-4xl font-bold text-foreground font-heading tabular-nums">
                 {(metric.value * 100).toFixed(1)}
                 <span className="text-lg text-muted-foreground">%</span>
               </p>
